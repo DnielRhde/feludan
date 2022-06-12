@@ -9,9 +9,9 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.1, 10000);
+const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.01, 1000000000);
 const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector("#cover"),alpha:true,
+    canvas: document.querySelector("#cover"),alpha:true,antialias:true,
 });
 const controls = new OrbitControls(camera, renderer.domElement);
 const maxx = 71.3/2+1;
@@ -21,8 +21,19 @@ const pointer = new THREE.Vector2();
 var latestObj;
 var latestObjPos;
 var mousedown = false;
-var texter = ["hejj","Daniel"];
+var texter = {
+    0:{"text":"hejsa","position":{"x":0,"z":0}},
+    1:{"text":"v2","position":{"x":0,"z":0}},
+};
 
+////public variabler
+export {scene};
+export {latestObj};
+export {createText};
+export {texter};
+
+
+//////
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(document.getElementById("cover").offsetWidth, document.getElementById("cover").offsetHeight);
@@ -57,12 +68,12 @@ function createText(indx){
     const loader = new FontLoader()
 
     loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-        const geometry = new TextGeometry( texter[indx], {
+        console.log(indx);
+        console.log(texter[indx]);
+        const geometry = new TextGeometry( texter[indx].text, {
             font: font,
             size: 7,
-            height: 0.3,
-    
+            height: 0.5,
         } );
         geometry.computeBoundingBox();
         const txtMesh = new THREE.Mesh(geometry,[new THREE.MeshStandardMaterial({color:0xe0e0e0}),new THREE.MeshStandardMaterial({color:0x999999})]);
@@ -79,16 +90,19 @@ function createText(indx){
         boundmat.opacity = 0.0;
         const cube = new THREE.Mesh(bound, boundmat);
         cube.position.y = bounds.y/2+1.5;
+
         cube.name = "text"+indx;
-        
-    
         cube.add(txtMesh);
+
+        console.log(texter);
+        cube.position.x = texter[indx].position.x;
+        cube.position.z = texter[indx].position.z;
 
         scene.add(cube);
     } );
 }
 
-for (let i = 0; i < texter.length; i++) {
+for (let i = 0; i < Object.keys(texter).length; i++) {
     createText(i);
 }
 
@@ -97,6 +111,8 @@ for (let i = 0; i < texter.length; i++) {
 
 const pointLight = new THREE.PointLight(0xffffff);
 const pointLight2 = new THREE.PointLight(0xffffff);
+const ambientLight = new THREE.AmbientLight(0xffffff);
+
 
 pointLight.position.y=1000;
 pointLight.position.x=37.5;
@@ -107,6 +123,7 @@ pointLight2.intensity=2;
 
 scene.add(pointLight2);
 scene.add(pointLight);
+scene.add(ambientLight);
 
 
 let x = maxx*-1; let y = maxz*-1; let width = maxx*2; let height = maxz*2; let radius = 10
@@ -126,7 +143,6 @@ const geometryEdge = new THREE.ShapeBufferGeometry( shape );
 geometryEdge.rotateX(Math.PI/2);
 
 
-
 ////plane
 const geometry = new THREE.PlaneGeometry( maxx*2*5, maxz*2*5 );
 const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide, opacity:0, transparent:true} );
@@ -142,7 +158,7 @@ const edges = new THREE.EdgesGeometry( geometryEdge );
 const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x32CD32 } ) );
 //
 planeEdge.position.y = 1.5;
-line.position.y=1.5;
+line.position.y=1.5+1;
 planeEdge.name = "pl";
 line.name = "line";
 scene.add( planeEdge );
@@ -200,11 +216,14 @@ function mouseMove( event ) {
     }
 }
 function mouseDown( event ) {
+    
     mousedown = true;
+    pointer.x = ( event.clientX / document.getElementById("cover").offsetWidth ) * 2 - 1;
+	pointer.y = - ( event.clientY / document.getElementById("cover").offsetHeight ) * 2 + 1;
     raycaster.setFromCamera(pointer, camera);
     const intersects = raycaster.intersectObjects(scene.children);
-    latestObj = null;
     latestObjPos = null;
+    latestObj=null;
     var noRotate = false;
     console.log(intersects);
     for (let i = 0; i < intersects.length; i++) {
@@ -224,13 +243,20 @@ function mouseDown( event ) {
 
     console.log(noRotate);
     if(noRotate == false){
-        controls.enabled = true;
+        controls.enableRotate = true;
     } else{
-        controls.enabled = false;
+        controls.enableRotate = false;
     }
+
 }
 function mouseUp( event ) {
     mousedown = false;
+
+    if(latestObj){
+        const specifiedIndex = latestObj.object.name.split("text")[1];
+        texter[specifiedIndex].position.x = latestObj.object.position.x;
+        texter[specifiedIndex].position.z = latestObj.object.position.z;
+    }
 }
 
 /////////////adding all scene objects to scene at once.

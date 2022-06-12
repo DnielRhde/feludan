@@ -6,12 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
-  <body style="overflow-x:hidden;">
+  <body style="overflow-x:hidden;font-family: Arial, Helvetica, sans-serif;">
     <div id="editor">
-      <div style="flex:1;">
+      <div style="flex:2;">
         <canvas id="cover"></canvas>
       </div>
-      <div id="settings"></div>
+      <div id="settings">
+        <h1>Huewei P20 Lite</h1>
+        <textarea id="text"></textarea>
+        <script type="module" src="/editor.js"></script>
+
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
 
