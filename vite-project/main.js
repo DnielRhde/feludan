@@ -9,13 +9,13 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.01, 1000000000);
+const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.01, 10000);
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector("#cover"),alpha:true,antialias:true,
 });
 const controls = new OrbitControls(camera, renderer.domElement);
-const maxx = 71.3/2+1;
-const maxz = 148.6/2+1;
+const maxx = (71.3/2+1)*0.1;
+const maxz = (148.6/2+1)*0.1;
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 var latestObj;
@@ -51,6 +51,7 @@ function createModel(){
             const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({color:0x080a0d}))
             mesh.rotateX(Math.PI);
             mesh.name = "planede";
+            mesh.scale.set(1*0.1,1*0.1,1*0.1)
             scene.add(mesh);
         },
         (xhr) => {
@@ -72,8 +73,8 @@ function createText(indx){
         console.log(texter[indx]);
         const geometry = new TextGeometry( texter[indx].text, {
             font: font,
-            size: 7,
-            height: 0.5,
+            size: 7*0.1,
+            height: 0.5*0.1,
         } );
         geometry.computeBoundingBox();
         const txtMesh = new THREE.Mesh(geometry,[new THREE.MeshStandardMaterial({color:0xe0e0e0}),new THREE.MeshStandardMaterial({color:0x999999})]);
@@ -81,10 +82,10 @@ function createText(indx){
         txtMesh.name = "aa";
         const bounds = new THREE.Box3().setFromObject( txtMesh ).max;
         txtMesh.position.x = bounds.x/2*-1;
-        txtMesh.position.z = 7/2;
+        txtMesh.position.z = 7*0.1/2;
         txtMesh.position.y = bounds.y/2*-1;
 
-        const bound = new THREE.BoxBufferGeometry(bounds.x, bounds.z,7);
+        const bound = new THREE.BoxBufferGeometry(bounds.x, bounds.z,7*0.1);
         const boundmat = new THREE.MeshBasicMaterial();
         boundmat.transparent = true;
         boundmat.opacity = 0.0;
@@ -97,6 +98,7 @@ function createText(indx){
         console.log(texter);
         cube.position.x = texter[indx].position.x;
         cube.position.z = texter[indx].position.z;
+        cube.position.y = bounds.y/2+(1.5*0.1);
 
         scene.add(cube);
     } );
@@ -126,7 +128,7 @@ scene.add(pointLight);
 scene.add(ambientLight);
 
 
-let x = maxx*-1; let y = maxz*-1; let width = maxx*2; let height = maxz*2; let radius = 10
+let x = maxx*-1; let y = maxz*-1; let width = maxx*2; let height = maxz*2; let radius = 10*0.1
         
 let shape = new THREE.Shape();
 shape.moveTo( x, y + radius );
@@ -157,12 +159,12 @@ const planeEdge = new THREE.Mesh( geometryEdge, materialEdge );
 const edges = new THREE.EdgesGeometry( geometryEdge );
 const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x32CD32 } ) );
 //
-planeEdge.position.y = 1.5;
+planeEdge.position.y = 1.5*0.1;
 line.position.y=1.5+1;
 planeEdge.name = "pl";
 line.name = "line";
 scene.add( planeEdge );
-scene.add( line );
+//scene.add( line );*/
 scene.add(plane);
 
 
@@ -181,18 +183,18 @@ function mouseMove( event ) {
 
                     var centerx = intersects[i].point.x;
                     var centerz = intersects[i].point.z;
-                    scene.getObjectByName("line").visible = false;
+                    //scene.getObjectByName("line").visible = false;
                     if(centerx > 0){
                         if(centerx < maxx-helper.object.geometry.boundingBox.max.x){
                             scene.getObjectByName(latestObj.object.name).position.x = centerx;
                         }else{
-                            scene.getObjectByName("line").visible = true;
+                            //scene.getObjectByName("line").visible = true;
                         }
                     } else{
                         if(centerx > maxx*-1+helper.object.geometry.boundingBox.max.x){
                             scene.getObjectByName(latestObj.object.name).position.x = centerx;
                         } else{
-                            scene.getObjectByName("line").visible = true;
+                            //scene.getObjectByName("line").visible = true;
                         }
                     }
                     if(centerz > 0){
@@ -200,13 +202,13 @@ function mouseMove( event ) {
                         if(centerz < maxz-helper.object.geometry.boundingBox.max.z){
                             scene.getObjectByName(latestObj.object.name).position.z = centerz+helper.object.geometry.boundingBox.max.y/2;
                         }else{
-                            scene.getObjectByName("line").visible = true;
+                            //scene.getObjectByName("line").visible = true;
                         }
                     } else{
                         if(centerz > maxz*-1+helper.object.geometry.boundingBox.max.z){
                             scene.getObjectByName(latestObj.object.name).position.z = centerz+helper.object.geometry.boundingBox.max.y/2;
                         }else{
-                            scene.getObjectByName("line").visible = true;
+                            //scene.getObjectByName("line").visible = true;
                         }
                     }
                     
