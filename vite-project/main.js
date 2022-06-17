@@ -7,9 +7,11 @@ import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 
-
+console.log("noice "+window.getComputedStyle(document.getElementById("editor")).marginLeft.split("px")[0]);
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.01, 10000);
+const camera = new THREE.PerspectiveCamera(10, (document.getElementById("cover").offsetWidth)/document.getElementById("cover").offsetHeight, 0.1, 300);
+
+
 const renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector("#cover"),alpha:true,antialias:true,
 });
@@ -37,7 +39,8 @@ export {texter};
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(document.getElementById("cover").offsetWidth, document.getElementById("cover").offsetHeight);
-camera.position.setY(800);
+camera.position.setY(100);
+camera.position.setZ(-0.1);
 camera.rotateX(Math.PI/2*-1);
 
 renderer.render(scene,camera);
@@ -74,7 +77,7 @@ function createText(indx){
         const geometry = new TextGeometry( texter[indx].text, {
             font: font,
             size: 7*0.1,
-            height: 0.5*0.1,
+            height: 0.6*0.1,
         } );
         geometry.computeBoundingBox();
         const txtMesh = new THREE.Mesh(geometry,[new THREE.MeshStandardMaterial({color:0xe0e0e0}),new THREE.MeshStandardMaterial({color:0x999999})]);
@@ -153,13 +156,13 @@ plane.name = "planee";
 plane.rotateX(Math.PI/2);
 plane.position.y = 1.5;
 
-const materialEdge = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide, opacity:0,transparent:true} );
+const materialEdge = new THREE.MeshBasicMaterial( {color: 0x000000000, side: THREE.DoubleSide, opacity:0.0, transparent:true} );
 const planeEdge = new THREE.Mesh( geometryEdge, materialEdge );
 ///tilføh edge
 const edges = new THREE.EdgesGeometry( geometryEdge );
 const line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial( { color: 0x32CD32 } ) );
 //
-planeEdge.position.y = 1.5*0.1;
+planeEdge.position.y = 0;
 line.position.y=1.5+1;
 planeEdge.name = "pl";
 line.name = "line";
@@ -259,6 +262,7 @@ function mouseUp( event ) {
         texter[specifiedIndex].position.x = latestObj.object.position.x;
         texter[specifiedIndex].position.z = latestObj.object.position.z;
     }
+
 }
 
 /////////////adding all scene objects to scene at once.

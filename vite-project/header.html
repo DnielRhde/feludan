@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+
+  </head>
+  <body id="krop" style="margin:0px;font-family: 'Space Grotesk', sans-serif;height: 100vh;">
+    <header id="mainHeader" style="    background-color: black;
+    padding:1.5%;
+    color:white;
+    display: flex;">
+        <button style="flex:1;font-family: 'Space Grotesk', sans-serif;cursor: pointer;color:white;flex-direction: row;display: flex;align-items: center;padding: 0px;background-color: transparent;border: 0px;">
+          <p style="font-size: 17vh;margin:0px;letter-spacing: 10vh;">Hellotheri</p>
+        </button>
+        <div style="flex:1;display: flex;flex-direction: row-reverse;">
+          <button style="cursor: pointer;width:30vh;    background-color:transparent;
+          height: 30vh;
+          padding: 0px;
+          font-size: 15vh;
+          color:white;
+          border: 0px;
+          margin-left:1%;
+          margin-right: 1%;
+          
+          ">
+            <i class="fa fa-home"></i>
+          </button>
+          <button class="header-button" style="cursor: pointer;background-color:transparent;
+          padding: 0px;
+          font-size: 15vh;
+          color:white;
+          border: 0px;
+          margin-left:1%;
+          margin-right: 1%;
+          letter-spacing: 3vh;
+          font-family: 'Space Grotesk', sans-serif;">
+            produkter
+          </button>
+        </div>
+      </header>
+      <header style="background-color: #e63946;height: 15vh;font-size: 100%;font-family: 'Space Grotesk', sans-serif;">
+        <button style="background-color: transparent;border: 0px;font-weight: 600;letter-spacing: 5vh;color: white;">100% OFF - Hele Weekenden</button>
+      
+      </header> 
+      <script>
+        document.getElementById("krop").style.height = "100vh";
+        var scrnHeight = window.innerHeight;
+        document.getElementById("krop").style.height = null;
+      
+        window.onresize = function updateAspectRatio(){
+          if(scrnHeight > window.innerWidth){
+            console.log("nej");
+            document.getElementById("mainHeader").style.flexDirection = "column";
+          } else {
+            console.log("ja");
+            document.getElementById("mainHeader").style.flexDirection = "row";
+          }
+        }
+      </script>
+  </body>
+</html>

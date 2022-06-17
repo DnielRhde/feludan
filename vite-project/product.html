@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="dk">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
 
-    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
     <script src="sitehandler.js"></script>
 
     <title>Vite App</title>
   </head>
-  <body style="height: 100vh;font-family: 'Space Grotesk', sans-serif;padding: 0px;margin: 0px;">
- 
-    <header id="header">
+  <body style="height: 100vh;padding: 0px;margin: 0px;font-family: 'Space Grotesk', sans-serif;">
+          <header id="header">
       <button onclick="gotosite('../')" style="font-family: 'Space Grotesk', sans-serif;color:white;flex-direction: row;display: flex;align-items: center;padding: 0px;background-color: transparent;border: 0px;">
         <p style="font-size: 4vh;margin:3vh;letter-spacing: 2vh;">Hellotheri</p>
       </button>
@@ -56,32 +54,35 @@
       </script>
     </header>
       
+      
+      <!--<iframe id="header-iframe" src="header.html" width="100%" height="40%" style="border: 0px;padding: 0px;margin: 0px;">
 
-
-
-
-    <div style="width: 100%;height: 80vh;">
-      <h2 style="font-size: 10vh;letter-spacing: 2vh;width: 100%;margin-top: 20vh;position:absolute;color: white;text-align: center;">Feludan</h2>
-      <image src="imgcover.jpg" style="height: 100%;width: 100%;object-fit:cover;"></image>
-    </div>
-    <div style="padding: 2vh;display: grid;grid-template-columns: repeat(auto-fill, minmax(min(50vh, 100%), 1fr));">
-      <button onclick="gotosite('/product.html')" style="border: 0px;background-color: white;height: 60vh;padding: 2vh;">
-        <image src="imgcover.jpg" style="object-fit: cover;width: 100%;height: 85%;border-radius: 2vh;"></image>
-        <div style="height: 15%;text-align:start;margin: 1vh;display: grid;grid-auto-flow: column;align-items: center;">
-          <h2 style="margin:0px;font-family: 'Space Grotesk', sans-serif;">Iphone 13 Max</h2>
-          <p style="margin:0px;font-family: 'Space Grotesk', sans-serif;font-size: 100%;text-align: right;">DKK 285.00</p>
+      </iframe>
+      <script>
+        var frame = document.getElementById("header-iframe");
+          
+        frame.onload = function()
+        {
+          frame.style.height = frame.contentWindow.document.body.scrollHeight + 'px';         
+        }
+        </script>-->
+      
+      <div id="editor">
+        <div style="flex:1;">
+          <canvas id="cover"></canvas>
         </div>
-      </button>
-      <div style="background-color: red;height: 60vh;margin: 2vh;"></div>
-      <div style="background-color: yellow;height: 60vh;margin: 2vh;"></div>
-      <div style="background-color: grey;height: 60vh;margin: 2vh;"></div>
+        <div id="settings">
+          <h2 style="font-size: 6vh;">Huewei P20 Lite</h2>
+          <textarea id="text"></textarea>
+          <script type="module" src="/editor.js"></script>
+          <button id="rotate">90*</button>
+        </div>
+      </div>
+    <script type="module" src="/main.js"></script>
 
+    <div style="height:100vh">
+      <image src=""></image>
     </div>
-
-
-
-
-
 
     <footer id="footer">
 
@@ -101,5 +102,6 @@
         "Passer min case?"
       </address>
     </footer>
+
   </body>
 </html>
